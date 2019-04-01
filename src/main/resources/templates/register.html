@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Register</title>
+
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1>PACE Bank Registration</h1>
+    </div>
+
+    <div class="col-sm-6 offset-sm-3">
+
+    <form th:action="@{/register}" th:object="${userApp}" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="userName">User Name</label>
+        <input type="text" class="form-control" id="userName" aria-describedby="userNameHelp" th:field="*{userName}" placeholder="Enter username" required>
+        <small id="userNameHelp" class="form-text text-muted" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Username Error</small>
+    </div>
+
+    <div class="form-group">
+        <label for="inputPassword">Password</label>
+        <input type="password" class="form-control" id="inputPassword" th:field="*{encryptedPassword}" minlength="6" placeholder="Password" required>
+        <small id="passwordHelp" class="form-text text-muted" th:if="${#fields.hasErrors('encryptedPassword')}" th:errors="*{encryptedPassword}">Password Error</small>
+    </div>
+
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp" th:field="*{firstName}" placeholder="Enter first name" required>
+        <small id="firstNameHelp" class="form-text text-muted" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</small>
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" aria-describedby="lastNameHelp" th:field="*{lastName}" placeholder="Enter last name" required>
+        <small id="lastNameHelp" class="form-text text-muted" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</small>
+    </div>
+
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" id="address" aria-describedby="addressHelp" th:field="*{address}" placeholder="Enter address" required>
+        <small id="addressHelp" class="form-text text-muted" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address Error</small>
+    </div>
+
+    <div class="form-group">
+        <label for="uploadF">Upload proof of address</label>
+        <br>
+        <input th:field="*{dataFile}" id="uploadF" type="file" required />
+    </div>
+
+
+    <h3>Choose a product:</h3>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="SA" checked>
+        <label class="form-check-label" for="SA">
+            Savings Account
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="CA">
+        <label class="form-check-label" for="CA">
+            Checking Account
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="MMA">
+        <label class="form-check-label" for="MMA">
+            Money Market Account
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="CD">
+        <label class="form-check-label" for="CD">
+            Certificate of Deposit
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="IRACD">
+        <label class="form-check-label" for="IRACD">
+            IRA Certificate of Deposit
+        </label>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="deposit">Initial Deposit Amount</label>
+        <input type="number" class="form-control" id="deposit" placeholder="Initial deposit amount" name="deposit" required>
+        <small id="minimumDeposit" class="form-text text-muted"></small>
+    </div>
+
+    <input type="hidden" id="product" name="product" />
+
+    <button type="submit" class="btn btn-primary" name="registerSubmit">Submit</button>
+</form>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>
+
+    function setMin(){
+        var minim;
+        var minN;
+        var ID = $("input:checked").attr('id');
+        switch (ID) {
+            case "SA":
+                minim = "Minimum deposit for Savings Account: $500";
+                minN = 500;
+                $("#product").val(1);
+                break;
+            case "CA":
+                minim = "Minimum deposit for Checking Account: $150";
+                minN = 150;
+                $("#product").val(2);
+                break;
+            case "MMA":
+                minim = "Minimum deposit for Money Market Account: $5,000";
+                minN = 5000;
+                $("#product").val(3);
+                break;
+            case "CD":
+                minim = "Minimum deposit for Certificate of Deposit: $900";
+                minN = 900;
+                $("#product").val(4);
+                break;
+            case "IRACD":
+                minim = "Minimum deposit for IRA Certificate of Deposit: $900";
+                minN = 900;
+                $("#product").val(5);
+                break;
+        }
+
+        $("#minimumDeposit").text(minim);
+        $("#deposit").attr({"min": minN});
+    }
+
+    setMin();
+
+    $(".form-check-input").click(function(){
+
+        setMin();
+
+    });
+
+</script>
+</body>
+</html>
